@@ -15,12 +15,13 @@ test('config aliases and default pages agree with SEO and disguise modes', async
 				'-e',
 				`
 import assert from 'node:assert/strict';
-import { serverUrl, serverPort } from './src/config.ts';
+import { serverHost, serverUrl, serverPort } from './src/config.ts';
 import { aliasRoutes, getAltPrefix, getPathAliases } from './src/obfuscation/paths.ts';
 import { externalPages as links } from './src/server/links.ts';
 const { pages, links: externalPages } = aliasRoutes({ '': 'index.html', links: 'index.html', 'robots.txt': 'robots.txt' }, links);
 assert.equal(serverUrl.pathname, '/school/');
 assert.equal(serverPort, Number(process.env.PORT));
+assert.equal(serverHost, process.env.PORT ? '0.0.0.0' : '127.0.0.1');
 assert.equal(pages[''], 'index.html');
 const aliases = getPathAliases();
 assert.equal(pages[aliases.links || 'links'], 'index.html');
@@ -37,6 +38,17 @@ else assert.match(aliases['files/sw.js'], /^[A-Za-z]+\\.js$/);
 `,
 			]);
 		}
+});
+
+test('Render PORT binds the server to 0.0.0.0', async (t) => {
+	const root = await fixture(t);
+	await run(root, [
+		'--input-type=module',
+		'-e',
+		"import assert from 'node:assert/strict'; import { serverHost, serverPort } from './src/config.ts'; assert.equal(serverHost, '0.0.0.0'); assert.equal(serverPort, 10000);",
+		],
+		{ PORT: '10000' }
+	);
 });
 
 test('invalid PORT values fail clearly before server startup', async (t) => {

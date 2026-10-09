@@ -1,7 +1,7 @@
 import { createServer } from 'node:http';
 import { Socket } from 'node:net';
 import { wispurr } from 'wispurr';
-import { config, serverPort, serverUrl } from '../config.ts';
+import { config, serverHost, serverPort, serverUrl } from '../config.ts';
 import { entryPointFile } from '../constants.ts';
 import { createSiteHandler } from './handler.ts';
 import { isWispRequest, wispOptions } from './wisp.ts';
@@ -32,7 +32,7 @@ process.once('exit', () => {
 	if (wisp.isRunning) wisp.kill();
 });
 
-server.listen(serverPort, serverUrl.hostname, () => {
+server.listen(serverPort, serverHost, () => {
 	process.send?.({ type: 'ready' });
 	console.log(`InvisiProxy is listening on port ${serverPort}.`);
 	console.log(
