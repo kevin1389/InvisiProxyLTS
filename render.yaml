@@ -5,4 +5,3 @@ services:
     region: oregon
     plan: free
     healthCheckPath: /
-    maxShutdownDelaySeconds: 300
