@@ -71,6 +71,32 @@ View the <a href="#deploy-InvisiProxy">self-deployment options</a> if you wish t
 
 </details>
 
+### Hetzner Cloud VPS (Docker)
+
+For a continuously running deployment that needs more memory than Render's free 512 MB service, the repository includes a Docker Compose setup for a self-managed Hetzner Cloud VM. This setup is prepared for manual deployment; it does not create a server or change the existing Render service. Choose an Ubuntu 24.04 VM with at least 4 GB RAM for the included 3 GB container memory cap, and confirm current pricing and service policies in Hetzner's Console before creating it.
+
+**Before opening the service to the public:** this is a web proxy. Review the provider's acceptable-use rules, ask Hetzner whether your intended public proxy use is allowed, and plan for abuse reports and access controls. The setup keeps the app port private, but it does not add proxy authentication.
+
+1. Create an Ubuntu 24.04 Cloud VM and attach a Hetzner Cloud Firewall allowing SSH (preferably only from your IP), TCP 80, and TCP 443. Leave outbound networking enabled for Tor client connections. Do not create the VM until you are ready to accept its ongoing charges.
+2. SSH into the VM, clone this repository, and check out the branch/revision you intend to deploy.
+3. From the repository root, install Docker, Compose, Nginx, and Certbot:
+
+   ```bash
+   sudo bash scripts/hetzner-bootstrap.sh
+   ```
+
+4. Start the app (it binds only to `127.0.0.1:8080`):
+
+   ```bash
+   sudo docker compose up -d --build
+   sudo docker compose logs -f app
+   ```
+
+5. Copy `deploy/nginx.conf` to `/etc/nginx/conf.d/invisi-proxy.conf`, replace `YOUR_DOMAIN` with your DNS name, point its A record to the VM's IPv4 address, and run `sudo nginx -t && sudo systemctl reload nginx`.
+6. Issue HTTPS after DNS points to the VM: `sudo certbot --nginx -d YOUR_DOMAIN`.
+
+The Cloud Firewall is separate from the VM's own firewall; configure it in Hetzner Console. Keep port 8080 closed to the public. The existing Render configuration remains available for rollback until you verify the VPS deployment and intentionally switch DNS.
+
 ### Production Paid/Free Options (Requires Payment Info)
 
 [![Deploy to Azure](https://raw.githubusercontent.com/BinBashBanana/deploy-buttons/master/buttons/remade/azure.svg)](https://deploy.azure.com/?repository=https://github.com/InvisiProxy/InvisiProxyLTS)

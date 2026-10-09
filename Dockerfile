@@ -7,10 +7,10 @@ LABEL org.opencontainers.image.title="InvisiProxy LTS" \
       org.opencontainers.image.source="https://github.com/InvisiProxy/InvisiProxyLTS"
 RUN apk add --no-cache tor bash python3 py3-pip make g++ gcc libc-dev gcompat
 RUN npm install -g corepack
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN corepack enable && corepack prepare pnpm@10.33.3 --activate
 
 COPY . .
-RUN pnpm run fresh-install
+RUN pnpm install --frozen-lockfile
 RUN pnpm run build
 EXPOSE 8080 9050 9051
 COPY serve.sh /serve.sh
