@@ -99,10 +99,10 @@ export async function run(
 	});
 }
 
-export const buildFixture = (root: string) =>
-	run(root, [
-		'node_modules/vite/bin/vite.js',
-		'build',
-		'--configLoader',
-		'native',
-	]);
+export const buildFixture = (root: string, timeout = 120000) =>
+	run(
+		root,
+		['node_modules/vite/bin/vite.js', 'build', '--configLoader', 'native'],
+		{},
+		timeout
+	);

@@ -546,6 +546,11 @@ try {
 	await runtimePage.waitForURL(
 		(url) => url.pathname === new URL(route('pages/frame.html')).pathname
 	);
+	assert.equal(
+		await runtimePage.locator('#password-field').count(),
+		0,
+		'the proxy shell must not insert decoy credentials that could hijack login autofill'
+	);
 	await runtimePage.waitForFunction(
 		() =>
 			window.$invisiScramjet?.ready === true &&

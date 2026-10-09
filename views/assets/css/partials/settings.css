@@ -14,19 +14,12 @@
 	align-items: center;
 	justify-content: center;
 	opacity: 0;
-	transition:
-		opacity 0.3s ease,
-		visibility 0.3s ease;
+	transition: opacity 0.3s ease;
 }
 
-.dropdown-parent:focus-within
-	.dropdown-settings:not(:is(:has(.close-settings-btn:active))) {
+.dropdown-settings.settings-open {
 	visibility: visible;
 	pointer-events: auto;
-	opacity: 1;
-}
-
-.dropdown-parent:focus-within .dropdown-settings {
 	opacity: 1;
 }
 
