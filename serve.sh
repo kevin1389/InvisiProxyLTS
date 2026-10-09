@@ -1,5 +1,5 @@
 #!/bin/sh
-# Start Tor in the background; note that this may take awhile even after the app starts
-tor &
+# Cap Tor's queue memory to leave room for Node and the Wisp worker on small hosts.
+tor --MaxMemInQueues "96 MB" &
 
 exec pnpm run manual-start
