@@ -10,6 +10,8 @@ export const serverPort = Number(process.env.PORT ?? config.port);
 if (!Number.isInteger(serverPort) || serverPort < 1 || serverPort > 65535)
 	throw new Error('PORT must be an integer between 1 and 65535.');
 
+export const serverHost = process.env.PORT ? '0.0.0.0' : config.host;
+
 export const serverUrl: Readonly<URL> = (() => {
 	let url: URL;
 	try {

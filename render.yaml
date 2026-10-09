@@ -4,4 +4,5 @@ services:
     name: invisi-lts
     region: oregon
     plan: free
+    dockerCommand: sh /serve.sh
     healthCheckPath: /
