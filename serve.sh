@@ -2,4 +2,4 @@
 # Start Tor in the background; note that this may take awhile even after the app starts
 tor &
 
-exec pnpm start
+exec pnpm run manual-start

@@ -6,14 +6,12 @@ import {
 } from '../components/HeadScripts.tsx';
 import HeadContent from '../components/HeadContent.tsx';
 import ProxyPreloads from '../components/ProxyPreloads.tsx';
-import AntiExfil from '../components/AntiExfil.tsx';
 import Settings from '../components/Settings.tsx';
 
 export default function ProxyFrame() {
 	return (
 		<>
 			<Cooking />
-			<AntiExfil />
 			<div class="loader loader-active">
 				<div class="loader-w"></div>
 			</div>
@@ -47,7 +45,7 @@ export default function ProxyFrame() {
 				</div>
 				<div title="Settings" class="dropdown-parent">
 					<button
-						class="link-button"
+						class="link-button settings-toggle"
 						type="button"
 						tabindex="0"
 						aria-label="Settings"

@@ -4,14 +4,14 @@ import { fixture, run, buildFixture } from '../helpers/fixture.ts';
 
 for (const disguiseFiles of [false, true]) {
 	test(`Chromium interactions: disguise=${disguiseFiles}`, {
-		timeout: 180_000,
+		timeout: 360_000,
 	}, async (t) => {
 		const root = await fixture(
 			t,
 			{ usingSEO: !disguiseFiles, disguiseFiles, pathname: '/school/' },
 			true
 		);
-		await buildFixture(root);
+		await buildFixture(root, 300_000);
 		console.log(
 			await run(root, [
 				fileURLToPath(

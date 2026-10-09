@@ -290,14 +290,15 @@ export function siteBuildPlugin(): Plugin[] {
 									)
 								: rewriteAssetReferences(
 										readFileSync(file.source, 'utf8')
-									);
-					const source =
-						!config.usingSEO && file.kind === 'vendor-script'
-							? obfuscateVendorScript(
-									original.toString(),
-									file.target
-								)
-							: original;
+									);				const source =
+					!config.usingSEO &&
+					file.kind === 'vendor-script' &&
+					!development
+						? obfuscateVendorScript(
+								original.toString(),
+								file.target
+						  )
+						: original;
 					this.emitFile({
 						type: 'asset',
 						fileName: file.target,

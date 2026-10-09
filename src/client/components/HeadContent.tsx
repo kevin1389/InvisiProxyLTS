@@ -90,6 +90,10 @@ export default function HeadContent() {
 					rel="stylesheet"
 					href={route('assets/css/style.css', 'inline')}
 				/>
+				<link
+					rel="stylesheet"
+					href={route('assets/css/chat.css', 'inline')}
+				/>
 			</Inline>
 			<link
 				rel="stylesheet"

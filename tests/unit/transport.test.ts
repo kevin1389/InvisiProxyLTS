@@ -1,9 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {
-	isMobileBrowser,
-	selectedTransport,
-} from '../../src/browser/transport.ts';
+import { isMobileBrowser, selectedTransport } from '../../src/browser/transport.ts';
+
 
 test('mobile detection covers Android, iOS and iPad desktop mode', () => {
 	const browser = (userAgent: string, platform = '', maxTouchPoints = 0) =>

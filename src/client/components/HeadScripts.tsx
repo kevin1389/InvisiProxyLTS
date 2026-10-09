@@ -115,6 +115,13 @@ export function PageScripts(props: {
 				innerHTML=""
 			/>
 		);
+		scripts.push(
+			<script
+				src={route('assets/js/chat.js', 'inline')}
+				defer={true}
+				innerHTML=""
+			/>
+		);
 	}
 	return <Inline>{scripts}</Inline>;
 }

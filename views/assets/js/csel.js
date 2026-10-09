@@ -9,6 +9,7 @@ import { isMobileBrowser, selectedTransport } from '../../../src/browser/transpo
 // Encase everything in a new scope so that variables are not accidentally
 // attached to the global scope.
 (() => {
+const initializeSettings = () => {
 // Determine the expiration date of a new cookie.
 let date = new Date();
 date.setFullYear(date.getFullYear() + 100);
@@ -354,26 +355,38 @@ if (document.getElementById('csel')) {
     }
   });
 
+  const setSettingsOpen = (open) => {
+    settingsMenu.classList.toggle('settings-open', open);
+    document.querySelectorAll('.settings-toggle').forEach((button) => {
+      button.setAttribute('aria-expanded', `${open}`);
+    });
+    if (open) {
+      requestAnimationFrame(() => {
+        if (settingsMenu.classList.contains('settings-open'))
+          settingsMenu.querySelector('.close-settings-btn')?.focus();
+      });
+    } else focusElement.focus();
+  };
+
   document.querySelectorAll('.settings-toggle').forEach((button) => {
-    button.addEventListener('click', () => focusElement.focus());
+    button.setAttribute('aria-expanded', 'false');
+    button.addEventListener('click', () => setSettingsOpen(true));
   });
 
   const closeSettings = () => {
-    if (settingsMenu.parentElement.contains(document.activeElement)) {
-      document.activeElement.blur();
-    }
+    if (settingsMenu.classList.contains('settings-open'))
+      setSettingsOpen(false);
   };
 
   attachEventListener('.close-settings-btn', 'click', closeSettings);
 
   settingsMenu.addEventListener('click', (event) => {
-    if (!event.target.closest('.settings-content')) {
-      closeSettings();
-    }
+    if (!event.target.closest('.settings-content')) closeSettings();
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
+    if (event.key === 'Escape' && settingsMenu.classList.contains('settings-open')) {
+      event.preventDefault();
       closeSettings();
     }
   });
@@ -595,4 +608,9 @@ useStorageArgs('LaunchType', (s) => {
     s || 'none'
   )();
 });
+};
+
+if (document.readyState === 'loading')
+  document.addEventListener('DOMContentLoaded', initializeSettings, { once: true });
+else initializeSettings();
 })();
