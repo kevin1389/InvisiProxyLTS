@@ -143,13 +143,13 @@ export const credits = Object.freeze<CreditSection[]>([
 			},
 			{
 				name: "YOCTDONALD'S",
-				contributions: 'Co-Owner, Main Contributor',
+				contributions: 'Co-Owner, Main Contributor, CTG',
 				url: 'https://github.com/yoct1',
 				contact: '@yoct',
 			},
 			{
 				name: 'OlyB/BinBashBanana',
-				contributions: 'Co-Owner, Main Contributor',
+				contributions: 'Co-Owner, Main Contributor, CTG',
 				url: 'https://github.com/BinBashBanana',
 				contact: '@olyb / @binbashbanana',
 			},
@@ -196,10 +196,15 @@ export const credits = Object.freeze<CreditSection[]>([
 				contact: '@velzie',
 			},
 			{
+				name: 'greiyn NOT H',
+				contributions: 'Bug Hunter, Translations',
+				contact: '@greiyn',
+			},
+			{
 				name: 'b4kt',
 				contributions: 'The Freedom Project (Former Hard Fork)',
 				url: 'https://discord.gg/jMm65ktMCz',
-				contact: 'The Freedom Project Discord',
+				contact: '@b4kt',
 			},
 		],
 	},
@@ -208,9 +213,14 @@ export const credits = Object.freeze<CreditSection[]>([
 		people: [
 			{
 				name: 'Manjit',
-				contributions: 'English to Italian',
+				contributions: 'Italian Translation',
 				url: 'https://manjit.dev',
 				contact: '@manjit',
+			},
+			{
+				name: 'aster',
+				contributions: 'Japanese Translation',
+				contact: '@asterf._.',
 			},
 		],
 	},
@@ -289,15 +299,20 @@ export const credits = Object.freeze<CreditSection[]>([
 				contributions: 'Contributor',
 			},
 			{
-				name: 'H',
-				contact: 'Not Speed',
-			},
-			{
 				name: 'BananaVeyLover',
+				contributions: 'CTG, banananananaan',
 			},
 			{
 				name: 'IronApple',
-				contact: 'The Apple Addict',
+				contributions: 'CTG The Apple Addict',
+			},
+			{
+				name: 'IStealYourMemes',
+				contributions: 'CTG Forever the advisor',
+			},
+			{
+				name: 'Tricksyz',
+				contributions: 'CTGYeah LOL',
 			},
 			{
 				name: 'Synaptic',
