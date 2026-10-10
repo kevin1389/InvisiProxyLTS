@@ -6,3 +6,6 @@ services:
     plan: free
     dockerCommand: sh /serve.sh
     healthCheckPath: /
+    envVars:
+      - key: ENABLE_TOR
+        value: "false"
