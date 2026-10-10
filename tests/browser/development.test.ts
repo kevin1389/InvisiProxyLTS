@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { fixture, run } from '../helpers/fixture.ts';
 
 for (const disguiseFiles of [true, false]) {
-	test(`development Scramjet navigation through libcurl and Epoxy: disguise=${disguiseFiles}`, {
+	test(`development Scramjet navigation through default Epoxy and libcurl: disguise=${disguiseFiles}`, {
 		timeout: 360000,
 	}, async (t) => {
 		const root = await fixture(
