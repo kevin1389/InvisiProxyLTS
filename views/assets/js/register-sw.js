@@ -1,5 +1,9 @@
 import { values, route } from 'build:invisiproxy';
-import { selectedTransport } from '../../../src/browser/transport.ts';
+import {
+  selectedTransport,
+  withTransientRequestRetry,
+} from '../../../src/browser/transport.ts';
+
 (() => {
   const swScope = route("/"),
     swAllowedHostnames = ['localhost', '127.0.0.1'],
@@ -87,7 +91,7 @@ import { selectedTransport } from '../../../src/browser/transport.ts';
   const buildScramjetTransport = async (options) => {
     const mod = await import(transportUrl);
     const TransportClient = mod.default;
-    const transport = new TransportClient(options);
+    const transport = withTransientRequestRetry(new TransportClient(options));
     await transport.init();
     return transport;
   };
