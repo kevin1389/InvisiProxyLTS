@@ -69,9 +69,9 @@ const wispConfig = {
 		maxConnectsPerSourceIPPerSecond: 500,
 		maxConnectsPerDestPerSecond: 250,
 		maxConnectsPerDestPerMinute: 6000,
-		maxInFlightSyns: 2,
-		maxConcurrentStreamsPerConnection: 4,
-		maxConcurrentConnections: 8,
+		maxInFlightSyns: 128,
+		maxConcurrentStreamsPerConnection: 128,
+		maxConcurrentConnections: 2048,
 		synFloodSignature: {
 			enabled: false,
 			windowMs: 2000,
