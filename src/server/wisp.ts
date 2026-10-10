@@ -15,7 +15,7 @@ const wispConfig = {
 	allowPrivateIPs: false,
 	allowLoopbackIPs: false,
 	tcpBufferSize: 32768,
-	socketBufferSize: 32768,
+	socketBufferSize: 65536,
 	pendingQueueSize: 131072,
 	bufferRemainingLength: 16384,
 	tcpNoDelay: true,
