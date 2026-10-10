@@ -1,4 +1,5 @@
 export type TransportName = 'libcurl' | 'epoxy';
+export const transportPreferenceVersion = 2;
 
 export function isMobileBrowser(browser: Navigator = navigator): boolean {
 	const mobile = (
@@ -15,7 +16,10 @@ export function isMobileBrowser(browser: Navigator = navigator): boolean {
 
 export function selectedTransport(
 	stored: unknown,
-	mobile = isMobileBrowser()
+	mobile = isMobileBrowser(),
+	storedVersion?: number
 ): TransportName {
-	return mobile || stored === 'epoxy' ? 'epoxy' : 'libcurl';
+	return mobile || storedVersion !== transportPreferenceVersion || stored !== 'libcurl'
+		? 'epoxy'
+		: 'libcurl';
 }

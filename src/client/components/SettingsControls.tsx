@@ -24,10 +24,10 @@ export function TransportSelect(props: { id: string; containerId: string }) {
 		<div id={props.containerId} class="transport-setting setting-field">
 			<label for={props.id}>Transport</label>
 			<select id={props.id} class="transport-list" aria-label="Transport">
-				<option value="libcurl" selected>
-					Libcurl
+				<option value="epoxy" selected>
+					Epoxy
 				</option>
-				<option value="epoxy">Epoxy</option>
+				<option value="libcurl">Libcurl (fallback)</option>
 			</select>
 		</div>
 	);

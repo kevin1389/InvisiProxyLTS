@@ -14,7 +14,11 @@ import { selectedTransport } from '../../../src/browser/transport.ts';
     storageObject = () => JSON.parse(localStorage.getItem(storageId)) || {},
     readStorage = (name) => storageObject()[name];
 
-  const transportName = selectedTransport(readStorage('Transport')),
+  const transportName = selectedTransport(
+      readStorage('Transport'),
+      undefined,
+      readStorage('TransportVersion')
+    ),
     transportUrl = route(`/${transportName}/index.mjs`);
 
   const getTransportOptions = () => {

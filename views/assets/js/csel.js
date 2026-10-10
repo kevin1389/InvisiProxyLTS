@@ -1,5 +1,9 @@
 import { values, route, maskText } from 'build:invisiproxy';
-import { isMobileBrowser, selectedTransport } from '../../../src/browser/transport.ts';
+import {
+  isMobileBrowser,
+  selectedTransport,
+  transportPreferenceVersion,
+} from '../../../src/browser/transport.ts';
 /* -----------------------------------------------
 /* Authors: Yoct, OlyB, b4kt
 /* GNU Affero General Public License v3.0: https://www.gnu.org/licenses/agpl-3.0.en.html
@@ -530,14 +534,20 @@ useStorageArgs('SearchEngine', (s) => {
 });
 
 const mobileBrowser = isMobileBrowser(),
-  transportName = selectedTransport(readStorage('Transport'), mobileBrowser);
-if (mobileBrowser || transportName === 'epoxy') setStorage('Transport', transportName);
-else if (readStorage('Transport') !== undefined) removeStorage('Transport');
+  storedTransportVersion = readStorage('TransportVersion'),
+  transportName = selectedTransport(
+    readStorage('Transport'),
+    mobileBrowser,
+    storedTransportVersion
+  );
+setStorage('Transport', transportName);
+setStorage('TransportVersion', transportPreferenceVersion);
 for (const transportSelector of document.getElementsByClassName('transport-list')) {
   transportSelector.value = transportName;
   transportSelector.closest('.transport-setting').hidden = mobileBrowser;
   transportSelector.addEventListener('change', () => {
     setStorage('Transport', transportSelector.value);
+    setStorage('TransportVersion', transportPreferenceVersion);
     location.reload();
   });
 }

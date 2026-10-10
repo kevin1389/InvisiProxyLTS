@@ -13,6 +13,7 @@ import { pathToFileURL } from 'node:url';
 import { runInNewContext } from 'node:vm';
 import { createServer } from 'vite';
 import { chromium } from 'playwright';
+import { transportPreferenceVersion } from '../../src/browser/transport.ts';
 
 const root = process.cwd();
 const load = <T>(path: string): Promise<T> =>
@@ -235,14 +236,22 @@ try {
 							body: '',
 						})
 			);
-			await context.addInitScript(() =>
+			await context.addInitScript((version) => {
+				const key = Object.keys(localStorage).find((name) =>
+					name.endsWith('-storage')
+				);
+				const preferences = key
+					? JSON.parse(localStorage.getItem(key) || '{}')
+					: {};
+				preferences.TransportVersion = version;
+				localStorage.setItem(key ?? 'net-time-storage', JSON.stringify(preferences));
 				Object.assign(window, {
 					AOS: { init() {}, refresh() {} },
 					tippy: () => [],
 					loadFull: async () => {},
 					tsParticles: { load: async () => ({ destroy() {} }) },
-				})
-			);
+				});
+			}, transportPreferenceVersion);
 			const page = await context.newPage();
 			page.setDefaultTimeout(15000);
 			const errors: string[] = [];
@@ -251,12 +260,12 @@ try {
 				errors.push(`${request.url()}: ${request.failure()?.errorText}`)
 			);
 			if (config.disguiseFiles) await page.goto(url(''));
-			for (const transport of ['libcurl', 'epoxy']) {
+			for (const transport of ['epoxy', 'libcurl']) {
 				await page.goto(url('browsing'));
 				await page.waitForFunction(
 					() => window.$invisiScramjet?.ready === true
 				);
-				if (transport === 'epoxy') {
+				if (transport === 'libcurl') {
 					await page.locator('#settings-panel > summary').click();
 					await Promise.all([
 						page.waitForEvent('load'),
@@ -286,6 +295,36 @@ try {
 				console.log(
 					`ok: real ${transport} proxied page and rewritten script`
 				);
+				if (transport === 'epoxy') {
+					// Test HTTPS while the default Epoxy transport is already active.
+					await page.goto(url('browsing'));
+					await page.waitForFunction(
+						() => window.$invisiScramjet?.ready === true
+					);
+					await page.locator('#search-input').fill('https://example.com/');
+					await page.locator('#search-input').press('Enter');
+					await page.waitForURL(new URL(url('s')).href);
+					const httpsFrame = page.frameLocator('#frame');
+					try {
+						await httpsFrame
+							.locator('body')
+							.filter({
+								hasText:
+									'This domain is for use in documentation examples',
+							})
+							.waitFor();
+					} catch (cause) {
+						const body = await httpsFrame
+							.locator('body')
+							.innerText()
+							.catch(() => '<unavailable>');
+						throw new Error(
+							`Epoxy HTTPS navigation failed; frame body: ${body}; browser errors: ${errors.join('\\n')}`,
+							{ cause }
+						);
+					}
+					console.log('ok: Epoxy proxied and rendered a real HTTPS page');
+				}
 			}
 		} finally {
 			await browser.close();
