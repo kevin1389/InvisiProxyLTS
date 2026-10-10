@@ -22,6 +22,8 @@ test('Render starts the prebuilt Docker app through the bounded startup script',
 	const serve = readProjectFile('serve.sh');
 
 	assert.match(render, /runtime: docker/);
+	assert.match(render, /repo: https:\/\/github\.com\/kevin1389\/InvisiProxyLTS/);
+	assert.match(render, /branch: freebuff\/the-dev-server-failed-to-start-the-d-d98ftvxd/);
 	assert.match(render, /dockerCommand: sh \/serve\.sh/);
 	assert.match(render, /healthCheckPath: \/\s*$/m);
 	assert.match(render, /key: ENABLE_TOR\s+value: "false"/);

@@ -73,7 +73,7 @@ View the <a href="#deploy-InvisiProxy">self-deployment options</a> if you wish t
 
 ### Hetzner Cloud VPS (Docker)
 
-For a continuously running deployment that needs more memory than Render's free 512 MB service, the repository includes a Docker Compose setup for a self-managed Hetzner Cloud VM. This setup is prepared for manual deployment; it does not create a server or change the existing Render service. Choose an Ubuntu 24.04 VM with at least 4 GB RAM for the included 3 GB container memory cap, and confirm current pricing and service policies in Hetzner's Console before creating it.
+For a continuously running deployment that needs more memory than Render's free 512 MB service, the repository includes a Docker Compose setup for a self-managed Hetzner Cloud VM. This setup is prepared for manual deployment; it does not create a server or change the existing Render service. Choose an Ubuntu 24.04 VM with 8 GB RAM for the included 3 GB container memory cap, leaving headroom for the host OS, Nginx, and Tor. A 4 GB VM is tight for this workload. Confirm current pricing and service policies in Hetzner's Console before creating it.
 
 **Before opening the service to the public:** this is a web proxy. Review the provider's acceptable-use rules, ask Hetzner whether your intended public proxy use is allowed, and plan for abuse reports and access controls. The setup keeps the app port private, but it does not add proxy authentication.
 
